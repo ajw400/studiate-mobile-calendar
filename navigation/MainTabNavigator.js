@@ -3,16 +3,16 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import CameraScreen from '../screens/CameraScreen';
+import QueueScreen from '../screens/QueueScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+const CameraStack = createStackNavigator({
+  Camera: CameraScreen,
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+CameraStack.navigationOptions = {
+  tabBarLabel: 'Camera',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -25,12 +25,12 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const QueueStack = createStackNavigator({
+  Queue: QueueScreen,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+QueueStack.navigationOptions = {
+  tabBarLabel: 'Queue',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -54,7 +54,7 @@ SettingsStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
+  CameraStack,
+  QueueStack,
   SettingsStack,
 });

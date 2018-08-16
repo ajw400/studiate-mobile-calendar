@@ -1,7 +1,7 @@
 import { AuthSession, SecureStore } from 'expo'
 import { BASE_URL, post } from './network'
 
-export const APP_ID = '14f33674d4d01a60813b91a4a9ebd2f1bb74438de335c44671e410c530bdde78'
+export const APP_ID = 'd937efecfced01a29be08b357002c80e052dad689311cb858598f35ca92afe08'
 const TOKEN_KEY = 'token'
 export var token
 
@@ -22,6 +22,7 @@ export const isLoggedIn = () => {
 
 export const login = async () => {
   let redirectUrl = AuthSession.getRedirectUrl()
+  console.log(redirectUrl)
   let result = await AuthSession.startAsync({
     authUrl:
       `${BASE_URL}/oauth/authorize?response_type=code` +
@@ -53,6 +54,6 @@ export const login = async () => {
 }
 
 export const logout = () => {
-  SecureStore.deleteItemAsync(TOKEN_KEY)
   token = null
+  return SecureStore.deleteItemAsync(TOKEN_KEY)
 }

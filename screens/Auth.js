@@ -13,6 +13,7 @@ export default class Auth extends Component {
   }
 
   loginAsync = async () => {
+    this.props.navigation.navigate("Main")
     login()
     .then(() => this.props.navigation.navigate("Main"))
     .catch(err => console.log("error", err))

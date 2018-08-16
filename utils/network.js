@@ -1,6 +1,6 @@
 import { token } from './auth'
 
-export const BASE_URL = 'http://localhost:3000'
+export const BASE_URL = 'https://www.studiate.com'
 
 export const get = (path, opts = {}) => {
   console.log("get ", path)
@@ -8,6 +8,7 @@ export const get = (path, opts = {}) => {
 }
 
 export const post = (path, data, opts) => {
+  console.log("data in post request", JSON.stringify(data))
   return makeRequest(path, {
     method: "POST",
     params: JSON.stringify(data),
