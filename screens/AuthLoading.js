@@ -13,6 +13,7 @@ export default class AuthLoading extends Component {
     const loggedIn = await isLoggedIn()
     this.props.navigation.navigate(loggedIn ? 'Main' : 'Auth')
   }
+
   render() {
     return(
       <View style={styles.container}>

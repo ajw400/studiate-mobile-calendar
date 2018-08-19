@@ -1,6 +1,6 @@
 import { token } from './auth'
 
-export const BASE_URL = 'https://www.studiate.com'
+export const BASE_URL = 'http://10.255.51.245:3000'
 
 export const get = (path, opts = {}) => {
   console.log("get ", path)
@@ -79,7 +79,6 @@ export const makeRequest = (path, opts) => {
         return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
       }).join('&');
     }
-    console.log(xhr)
     xhr.send(params);
   });
 }

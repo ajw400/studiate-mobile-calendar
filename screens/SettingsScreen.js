@@ -4,7 +4,7 @@ import { logout } from '../utils/auth'
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
-    title: 'app.json',
+    title: 'Settings',
   };
 
   logoutAsync = async () => {

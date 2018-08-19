@@ -3,16 +3,16 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import CameraScreen from '../screens/CameraScreen';
-import QueueScreen from '../screens/QueueScreen';
+import CalendarScreen from '../screens/CalendarScreen';
+import StudentsScreen from '../screens/StudentsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
-const CameraStack = createStackNavigator({
-  Camera: CameraScreen,
+const CalendarStack = createStackNavigator({
+  Calendar: CalendarScreen,
 });
 
-CameraStack.navigationOptions = {
-  tabBarLabel: 'Camera',
+CalendarStack.navigationOptions = {
+  tabBarLabel: 'Calendar',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -25,12 +25,12 @@ CameraStack.navigationOptions = {
   ),
 };
 
-const QueueStack = createStackNavigator({
-  Queue: QueueScreen,
+const StudentsStack = createStackNavigator({
+  Students: StudentsScreen,
 });
 
-QueueStack.navigationOptions = {
-  tabBarLabel: 'Queue',
+StudentsStack.navigationOptions = {
+  tabBarLabel: 'Students',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -54,7 +54,7 @@ SettingsStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  CameraStack,
-  QueueStack,
+  CalendarStack,
+  StudentsStack,
   SettingsStack,
 });

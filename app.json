@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "studiate-mobile",
+    "name": "studiate-mobile-calendar",
     "description": "A very interesting project.",
-    "slug": "studiate-mobile",
+    "slug": "studiate-mobile-calendar",
     "privacy": "public",
     "sdkVersion": "29.0.0",
     "platforms": ["ios", "android"],

@@ -1,8 +1,8 @@
 import { AuthSession, SecureStore } from 'expo'
 import { BASE_URL, post } from './network'
 
-export const APP_ID = 'd937efecfced01a29be08b357002c80e052dad689311cb858598f35ca92afe08'
-const TOKEN_KEY = 'token'
+export const APP_ID = 'cc1fb4ea250190f3f00a631516775fc6705dd4797f2f774dc5db7f9a0f2ed0c4'
+const TOKEN_KEY = 'token1'
 export var token
 
 export const isLoggedIn = () => {
@@ -22,15 +22,12 @@ export const isLoggedIn = () => {
 
 export const login = async () => {
   let redirectUrl = AuthSession.getRedirectUrl()
-  console.log(redirectUrl)
   let result = await AuthSession.startAsync({
     authUrl:
       `${BASE_URL}/oauth/authorize?response_type=code` +
       `&client_id=${APP_ID}` +
       `&redirect_uri=${encodeURIComponent(redirectUrl)}`
   })
-
-
   return new Promise((resolve, reject) => {
     post("/oauth/token", {
       grant_type: "authorization_code",
@@ -39,7 +36,7 @@ export const login = async () => {
       redirect_uri: redirectUrl,
     })
     .then(json => {
-      console.log("----JSON ----", json)
+      console.log("----JSON Response ----", json)
       if (json.access_token) {
         SecureStore.setItemAsync(TOKEN_KEY, json.access_token)
         token = json.access_token
@@ -47,7 +44,6 @@ export const login = async () => {
       } else {
         reject(json.error)
       }
-
     })
     .catch(err => reject(err))
   })
