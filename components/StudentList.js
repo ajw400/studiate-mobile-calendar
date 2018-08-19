@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { withNavigation } from 'react-navigation'
 
-export class StudentList extends Component {
+class StudentList extends Component {
   render() {
     const { students } = this.props
     let student_array = []
@@ -14,20 +15,22 @@ export class StudentList extends Component {
       <View style={styles.container}>
         <FlatList
           data={student_array}
-          renderItem={({item}) => <ListItem item={item} />}
+          renderItem={({item}) => <ListItem
+            item={item}
+            onPress={() => this.props.navigation.navigate('StudentDetail', {student: item})} />}
         />
       </View>
     );
   }
 }
 
-const ListItem = ({ item }) => {
+const ListItem = ({ item, onPress }) => {
   return (
-    <View style={styles.row}>
+    <TouchableOpacity style={styles.row} onPress={onPress}>
       <Text style={styles.item}>{item.first_name} {item.last_name}</Text>
       <Text style={styles.item}>{item.phone}</Text>
       <Text style={styles.item}>{item.is_active ? 'active' : 'inactive'}</Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -47,3 +50,5 @@ const styles = StyleSheet.create({
     height: 44,
   },
 })
+
+export default withNavigation(StudentList)

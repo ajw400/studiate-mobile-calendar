@@ -62,13 +62,16 @@ class CalendarScreen extends Component {
   }
 
   renderItem = (item) => {
+    const { students } = this.props
+    const student = students[item.student_id]
     return (
-      <View style={[styles.item, {height: item.height}]}><Text>{item.name}</Text></View>
+      <View style={[styles.item, {height: item.length}]}><Text>{student.first_name} {student.last_name}</Text></View>
     );
   }
 
   render() {
     const { appointments, selectedDay } = this.state
+
     return(
       <Agenda
         loadItemsForMonth={this.loadMonth}

@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import CalendarScreen from '../screens/CalendarScreen';
 import StudentsScreen from '../screens/StudentsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import StudentDetail from '../components/StudentDetail'
 
 const CalendarStack = createStackNavigator({
   Calendar: CalendarScreen,
@@ -27,6 +28,7 @@ CalendarStack.navigationOptions = {
 
 const StudentsStack = createStackNavigator({
   Students: StudentsScreen,
+  StudentDetail: StudentDetail
 });
 
 StudentsStack.navigationOptions = {
