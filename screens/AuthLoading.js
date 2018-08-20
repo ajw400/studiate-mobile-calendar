@@ -1,17 +1,39 @@
 import React, { Component } from 'react'
 import { View, ActivityIndicator, StatusBar, StyleSheet } from 'react-native'
 import { isLoggedIn } from '../utils/auth'
+import { get } from '../utils/network'
+import { connect } from 'react-redux'
+import { listStudents } from '../actions/students'
 
 
-export default class AuthLoading extends Component {
-  constructor() {
-    super()
+class AuthLoading extends Component {
+
+  componentDidMount() {
+    console.log("this.props", this.props)
     this._bootstrapAsync()
+  }
+
+  getStudents() {
+    const { dispatch } = this.props
+    return new Promise(function (resolve, reject) {
+      console.log("in promise")
+      get('/api/v1/students')
+      .then(students => {
+          dispatch(listStudents(students))
+          resolve(true)
+      })
+      .catch(err => reject(err))
+    })
   }
 
   _bootstrapAsync = async () => {
     const loggedIn = await isLoggedIn()
-    this.props.navigation.navigate(loggedIn ? 'Main' : 'Auth')
+    if (loggedIn === true) {
+      this.getStudents()
+      .then(() => this.props.navigation.navigate('Main'))
+    } else {
+      this.props.navigation.navigate('Auth')
+    }
   }
 
   render() {
@@ -31,3 +53,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   }
 })
+
+const mapStateToProps = (state) => {
+  return {}
+}
+
+export default connect(mapStateToProps)(AuthLoading)

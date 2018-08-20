@@ -25,6 +25,10 @@ import {Agenda} from 'react-native-calendars';
 
 
 class CalendarScreen extends Component {
+  static navigationOptions = {
+    title: 'Agenda',
+  };
+
   mounted = false
 
   state = {
@@ -34,18 +38,25 @@ class CalendarScreen extends Component {
 
   componentDidMount() {
     this.mounted = true
-    get('/api/v1/students')
-    .then(students => {
-      if (this.mounted === true){
-        this.props.dispatch(listStudents(students))
-      }
-    })
-    .catch(err => this.props.navigation.navigate('Auth'))
-    changeToken("new val")
   }
 
   componentWillUnmount() {
     this.mounted = false
+  }
+
+  getStudents() {
+    console.log(this.getstudents)
+    return new Promise(function (resolve, reject) {
+      get('/api/v1/students')
+      .then(students => {
+        console.log("students ", students)
+        if (this.mounted === true) {
+          this.props.dispatch(listStudents(students))
+          resolve(true)
+        }
+      })
+      .catch(err => reject(err))
+    })
   }
 
   timeToString() {
@@ -53,11 +64,8 @@ class CalendarScreen extends Component {
     return date.toISOString().split('T')[0];
   }
 
-  loadMonth = (selectedDay) => {
-    newMonth = new Date(selectedDay).getMonth()
-    oldMonth = new Date(this.state.selectedDay).getMonth()
-    if (newMonth != oldMonth) {
-      get(`/api/v1/appointments/${selectedDay.dateString}`)
+  getAppointments(selectedDay) {
+    get(`/api/v1/appointments/${selectedDay.dateString}`)
       .then(
         appointments => {
          if (this.mounted === true) {
@@ -73,6 +81,15 @@ class CalendarScreen extends Component {
       .catch(err => {
         console.log("catch error loadmonth ", err)
         this.props.navigation.navigate('Auth')})
+  }
+
+  loadMonth = (selectedDay) => {
+    console.log(" in load month ----")
+    console.log("this.mounted", this.mounted)
+    newMonth = new Date(selectedDay).getMonth()
+    oldMonth = new Date(this.state.selectedDay).getMonth()
+    if (newMonth != oldMonth) {
+      this.getAppointments(selectedDay)
     }
   }
 
@@ -88,6 +105,7 @@ class CalendarScreen extends Component {
 
   renderItem = (appt) => {
     const { students } = this.props
+    console.log("render item students", students)
     const student = students[appt.student_id]
     return (
       <View style={[styles.appt, {height: appt.length * 2}]}>
@@ -109,9 +127,7 @@ class CalendarScreen extends Component {
         renderItem={this.renderItem}
         rowHasChanged={this.rowHasChanged}
         selected={selectedDay}
-
       />
-
       )
   }
 
