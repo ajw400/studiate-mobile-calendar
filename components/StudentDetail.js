@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
+import { tintColor } from '../constants/Colors'
 
 export default class StudentDetail extends Component {
   render() {
@@ -8,8 +9,10 @@ export default class StudentDetail extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{student.first_name} {student.last_name}</Text>
-        <Text>Phone: {student.phone}</Text>
-        <Text>Address: {student.address}</Text>
+        <Text style={styles.tint}>{student.email}</Text>
+        <Text>{student.birthdate}</Text>
+        <Text>{student.phone}</Text>
+        <Text>{student.address} {student.city} {student.zipcode}</Text>
       </View>
       )
   }
@@ -17,12 +20,15 @@ export default class StudentDetail extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0.5,
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-around',
   },
   title: {
     fontSize: 30
   },
+  tint: {
+    color: tintColor
+  }
 
 })

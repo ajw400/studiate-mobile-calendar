@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import moment from 'moment';
 import {
   Button,
   Image,
@@ -11,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import { get, post } from '../utils/network'
+import { changeToken } from '../utils/auth'
 import { loadStudentList, listStudents } from '../actions/students'
 import {
   Ionicons,
@@ -23,13 +25,27 @@ import {Agenda} from 'react-native-calendars';
 
 
 class CalendarScreen extends Component {
+  mounted = false
+
   state = {
     appointments: {},
     selectedDay: this.timeToString(),
   }
 
-  componentWillMount() {
-    get('/api/v1/students').then(students => this.props.dispatch(listStudents(students)))
+  componentDidMount() {
+    this.mounted = true
+    get('/api/v1/students')
+    .then(students => {
+      if (this.mounted === true){
+        this.props.dispatch(listStudents(students))
+      }
+    })
+    .catch(err => this.props.navigation.navigate('Auth'))
+    changeToken("new val")
+  }
+
+  componentWillUnmount() {
+    this.mounted = false
   }
 
   timeToString() {
@@ -40,14 +56,23 @@ class CalendarScreen extends Component {
   loadMonth = (selectedDay) => {
     newMonth = new Date(selectedDay).getMonth()
     oldMonth = new Date(this.state.selectedDay).getMonth()
-    console.log("months", oldMonth, newMonth)
     if (newMonth != oldMonth) {
       get(`/api/v1/appointments/${selectedDay.dateString}`)
-      .then(appointments => this.setState(
-        { ...this.state,
-          appointments:
-            {...this.state.appointments, ...appointments},
-          selectedDay }))
+      .then(
+        appointments => {
+         if (this.mounted === true) {
+            this.setState(
+            { ...this.state,
+              appointments:
+                {...this.state.appointments, ...appointments},
+              selectedDay
+            })
+          }
+        }
+      )
+      .catch(err => {
+        console.log("catch error loadmonth ", err)
+        this.props.navigation.navigate('Auth')})
     }
   }
 
@@ -61,11 +86,15 @@ class CalendarScreen extends Component {
     return r1.name !== r2.name;
   }
 
-  renderItem = (item) => {
+  renderItem = (appt) => {
     const { students } = this.props
-    const student = students[item.student_id]
+    const student = students[appt.student_id]
     return (
-      <View style={[styles.item, {height: item.length}]}><Text>{student.first_name} {student.last_name}</Text></View>
+      <View style={[styles.appt, {height: appt.length * 2}]}>
+        <Text>{student.first_name} {student.last_name} | {appt.length} min.</Text>
+        <Text>{moment(appt.date_time).format('llll')} - {moment(appt.end_time).format('LT')}</Text>
+        <Text>{appt.status}</Text>
+      </View>
     );
   }
 
@@ -96,7 +125,7 @@ const mapStateToProps = (state) => {
 }
 
 const styles = StyleSheet.create({
-  item: {
+  appt: {
     backgroundColor: 'white',
     flex: 1,
     borderRadius: 5,
@@ -105,7 +134,7 @@ const styles = StyleSheet.create({
     marginTop: 17
   },
   emptyDate: {
-    height: 15,
+    height: 30,
     flex:1,
     paddingTop: 30
   }

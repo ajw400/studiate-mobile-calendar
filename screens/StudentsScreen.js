@@ -1,9 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { PHOTOS_DIR } from '../utils/uploadPhoto'
 import { FileSystem } from 'expo'
 import { MaterialIcons } from '@expo/vector-icons';
-import { uploadPhotoAsync} from '../utils/uploadPhoto'
 import { login } from '../utils/auth'
 import StudentList from '../components/StudentList'
 import StudentDetail from '../components/StudentDetail'

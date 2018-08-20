@@ -1,6 +1,6 @@
-import { token } from './auth'
+import { token, logout } from './auth'
 
-export const BASE_URL = 'http://10.255.51.245:3000'
+export const BASE_URL = 'https://www.studiate.com'
 
 export const get = (path, opts = {}) => {
   console.log("get ", path)
@@ -8,7 +8,6 @@ export const get = (path, opts = {}) => {
 }
 
 export const post = (path, data, opts) => {
-  console.log("data in post request", JSON.stringify(data))
   return makeRequest(path, {
     method: "POST",
     params: JSON.stringify(data),
@@ -51,6 +50,9 @@ export const makeRequest = (path, opts) => {
       if (this.status >= 200 && this.status < 300) {
         resolve(JSON.parse(xhr.response));
       } else {
+        if (this.status === 401) {
+          logout()
+          }
         reject({
           status: this.status,
           statusText: xhr.statusText

@@ -28,7 +28,6 @@ const ListItem = ({ item, onPress }) => {
   return (
     <TouchableOpacity style={styles.row} onPress={onPress}>
       <Text style={styles.item}>{item.first_name} {item.last_name}</Text>
-      <Text style={styles.item}>{item.phone}</Text>
       <Text style={styles.item}>{item.is_active ? 'active' : 'inactive'}</Text>
     </TouchableOpacity>
   )
@@ -42,7 +41,9 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#2f95dc'
   },
   item: {
     padding: 10,
